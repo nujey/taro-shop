@@ -5,6 +5,7 @@ import { observer, inject } from '@tarojs/mobx'
 import Footer  from '../../components/footer/footer'
 import ButtonHook from '../../components/button/button'
 import './index.scss'
+import Hello from '../../components/statefulBtn/statefulbtn'
 
 type PageStateProps = {
   counterStore: {
@@ -65,14 +66,10 @@ class Index extends Component {
 
   render () {
     const { counterStore: { counter } } = this.props
+    console.log(counter)
     return (
       <View className='index'>
-        <ButtonHook></ButtonHook>
-        <Button onClick={this.increment}>+</Button>
-        <Button onClick={this.decrement}>-</Button>
-        <Button onClick={this.incrementAsync}>Add Async</Button>
-        <Text>{counter}</Text>
-        <Footer name='class-ts' renderFooter={<View>我是render</View>}/>
+       <Hello name="杠精"></Hello>
       </View>
     )
   }

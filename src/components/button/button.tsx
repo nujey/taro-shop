@@ -3,12 +3,12 @@ import { View } from '@tarojs/components'
 import './button.scss'
 
 function useClientRect() {
-  const [rect, setRect1] = useState(0)
+  const [rect, setRect] = useState(0)
   const ref = useCallback(node => {
     if (node !== null) {
       setRect(node.getBoundingClientRect())
     }
-    return [rect, setRect]
+    return [rect, ref]
   }, [])
 }
 
@@ -23,7 +23,7 @@ function ButtonHook () {
   }
   return (
     <View>
-      <View ref={ref} className='button'>button</View>
+      <View  className='button'>button</View>
       <View onClick={onButtonClick}>test</View>
       {
         rect !== null && <View>The above header is {Math.round(rect)}px</View>

@@ -3,20 +3,20 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import Footer  from '../../components/footer/footer'
-
+import ButtonHook from '../../components/button/button'
 import './index.scss'
 
 type PageStateProps = {
   counterStore: {
-    counter: number,
-    increment: Function,
-    decrement: Function,
+    counter: number
+    increment: Function
+    decrement: Function
     incrementAsync: Function
   }
 }
 
 interface Index {
-  props: PageStateProps;
+  props: PageStateProps
 }
 
 @inject('counterStore')
@@ -67,11 +67,12 @@ class Index extends Component {
     const { counterStore: { counter } } = this.props
     return (
       <View className='index'>
+        <ButtonHook></ButtonHook>
         <Button onClick={this.increment}>+</Button>
         <Button onClick={this.decrement}>-</Button>
         <Button onClick={this.incrementAsync}>Add Async</Button>
         <Text>{counter}</Text>
-        <Footer renderFooter={ <View>你好，我是fotter</View> }/>
+        <Footer name='class-ts' renderFooter={<View>我是render</View>}/>
       </View>
     )
   }

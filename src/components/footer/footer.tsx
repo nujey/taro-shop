@@ -1,16 +1,18 @@
 // import { Component } from 'react'
-import { Component } from '@tarojs/taro'
+import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import { ReactNode } from 'react'
 
-class Footer extends Component<{renderFooter?: any}, {}> {
-  constructor(props) {
-    super(props)
-    console.log(this.state)
-  }
+export interface Props {
+  name: string,
+  readonly renderFooter?:  ReactNode
+}
+class Footer extends Component<Props, object> {
   render() {
+    const { name } = this.props
     return (
-      <View className="footer">
-        {this.props.renderFooter}
+      <View className='footer'>
+       {name} ~ {this.props.renderFooter}
       </View>
     )
   }

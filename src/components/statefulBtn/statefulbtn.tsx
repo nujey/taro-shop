@@ -36,7 +36,7 @@ class Hello extends Component <Props, State> {
   }
 }
 function getFormatNumber(num: number) {
-  return Array(num + 1).join('!!')
+  return Array(num + 1).join('!')
 }
 
 export default Hello

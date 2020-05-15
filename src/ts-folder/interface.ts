@@ -142,4 +142,26 @@ class Boy extends Father implements Child{
   log() {}
 }
 
+/**
+ * 定义类型
+ */
+interface ObjectOf<V> {
+  [_: string]: V
+}
+class OrderItem {
+  uuid: string;
+  amount: number;
+  secondaryTotal: number;
+  total: number;
+  originalTotal: number;
+  checked: boolean;
+}
+
+interface State {
+  promoList: {
+    giftCheck: ObjectOf<OrderItem>
+    freeCheck: Array<OrderItem>
+  }
+}
+
 

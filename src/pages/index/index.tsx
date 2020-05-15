@@ -6,6 +6,7 @@ import Footer  from '../../components/footer/footer'
 import ButtonHook from '../../components/button/button'
 import './index.scss'
 import Hello from '../../components/statefulBtn/statefulbtn'
+import TodoListView from '../../components/mobx-buttom/mobx-btn'
 
 type PageStateProps = {
   counterStore: {
@@ -20,6 +21,7 @@ interface Index {
   props: PageStateProps
 }
 
+const todoList = { todos: [{id: 1, title: '111'}, {id: 2, title: '222'}], unfinishedTodoCount: true }
 @inject('counterStore')
 @observer
 class Index extends Component {
@@ -69,7 +71,8 @@ class Index extends Component {
     console.log(counter)
     return (
       <View className='index'>
-       <Hello name="杠精"></Hello>
+        
+       <TodoListView todoList={todoList}/>
       </View>
     )
   }

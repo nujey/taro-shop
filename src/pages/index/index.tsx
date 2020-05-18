@@ -1,12 +1,15 @@
 import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import Footer  from '../../components/footer/footer'
-import ButtonHook from '../../components/button/button'
+// import Footer  from '../../components/footer/footer'
+// import ButtonHook from '../../components/button/button'
 import './index.scss'
-import Hello from '../../components/statefulBtn/statefulbtn'
-import TodoListView from '../../components/mobx-buttom/mobx-btn'
+// import Hello from '../../components/statefulBtn/statefulbtn'
+// import TodoListView from '../../components/mobx-buttom/mobx-btn'
+import { MobxListClass } from '../../mobx-component/mobx-list'
+import MobxListFun from '../../mobx-component/mobx-fnlist'
+import { observable } from 'mobx'
 
 type PageStateProps = {
   counterStore: {
@@ -20,8 +23,7 @@ type PageStateProps = {
 interface Index {
   props: PageStateProps
 }
-
-const todoList = { todos: [{id: 1, title: '111'}, {id: 2, title: '222'}], unfinishedTodoCount: true }
+const person = observable({ name: 'name' })
 @inject('counterStore')
 @observer
 class Index extends Component {
@@ -34,7 +36,7 @@ class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页111'
+    navigationBarTitleText: '首页'
   }
 
   componentWillMount () { }
@@ -71,8 +73,8 @@ class Index extends Component {
     console.log(counter)
     return (
       <View className='index'>
-        <Hello name="哈哈哈"/>
-       {/* <TodoListView todoList={todoList}/> */}
+        <MobxListClass person={person}/>
+        <MobxListFun person={person}/>
       </View>
     )
   }

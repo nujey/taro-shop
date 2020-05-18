@@ -8,8 +8,20 @@ export interface Props {
 interface State {
   currentLevel: number
 }
+type PageProps = {
+  name: string;
+  level?: number;
+}
+type PageState = {
+  currentLevel: number
+}
 
-class Hello extends Component <Props, State> {
+interface Hello {
+  props: PageProps
+  state: PageState
+}
+
+class Hello extends Component {
   constructor(props: Props) {
     super(props)
     this.state = { currentLevel: props.level || 1 }

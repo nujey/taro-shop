@@ -71,8 +71,8 @@ class Index extends Component {
     console.log(counter)
     return (
       <View className='index'>
-        
-       <TodoListView todoList={todoList}/>
+        <Hello name="哈哈哈"/>
+       {/* <TodoListView todoList={todoList}/> */}
       </View>
     )
   }

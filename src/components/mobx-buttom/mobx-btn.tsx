@@ -4,12 +4,12 @@ import { View, Button, Text, Input } from '@tarojs/components'
 // interface ArrayOf<v> {
 //   [_:string]: v
 // }
-interface Props {
-  todoList: {
-    todos: Array<any>
-    unfinishedTodoCount: boolean
-  }
-}
+// interface Props {
+//   todoList: {
+//     todos: Array<any>
+//     unfinishedTodoCount: boolean
+//   }
+// }
 @observer
 // <Props, {}>
 class TodoListView extends Component {

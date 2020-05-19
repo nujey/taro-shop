@@ -1,0 +1,21 @@
+@mixin list-item() {
+  width: 100%;
+  height: 30px;
+  margin: 12px;
+  background: #38adff;
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  display: inline-block;
+}
+.list-item {
+  width: 100%;
+  height: 30px;
+  margin: 12px;
+  background: #38adff;
+  color: #fff;
+  text-align: center;
+  line-height: 30px;
+  display: inline-block;
+  @include list-item();
+}

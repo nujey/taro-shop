@@ -2,13 +2,9 @@ import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-// import Footer  from '../../components/footer/footer'
-// import ButtonHook from '../../components/button/button'
 import './index.scss'
-// import Hello from '../../components/statefulBtn/statefulbtn'
-// import TodoListView from '../../components/mobx-buttom/mobx-btn'
 import { MobxListClass } from '../../mobx-component/mobx-list'
-import MobxListFun from '../../mobx-component/mobx-fnlist'
+import {  MobxListClassTs } from '../../mobx-component/mobx-list-ts'
 import { observable } from 'mobx'
 
 type PageStateProps = {
@@ -73,8 +69,9 @@ class Index extends Component {
     console.log(counter)
     return (
       <View className='index'>
+        {person.name}
         <MobxListClass person={person}/>
-        <MobxListFun person={person}/>
+        <MobxListClassTs person={person}/>
       </View>
     )
   }

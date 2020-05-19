@@ -25,6 +25,7 @@ class MobxListClassTs extends Component<Props, {}> {
 
   @action.bound
   handlePushTodo():void {
+    console.log(this.props)
     this.props.person.name = 'TS组件'
     const obj = {id: this.title, status: true}
     this.todos.push(obj)

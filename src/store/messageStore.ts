@@ -7,7 +7,7 @@ import { observable, action } from 'mobx'
  *  @action 监控数据改变的自定义方法
  */
 class messageStore {
-  @observable msgCount = 0
+  @observable msgCount:number = 0
   @observable msgList:Array<any> = []
 
   @action
@@ -31,8 +31,5 @@ class messageStore {
     return this.msgCount
   }
 }
-// const messageStore = observable({
-//   message: 111
-// })
 
-export default messageStore
+export default new messageStore()

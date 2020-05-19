@@ -50,7 +50,7 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Provider store = {rootStore}>
+      <Provider store = {...rootStore}>
         <Index />
       </Provider>
     )

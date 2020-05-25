@@ -25,7 +25,7 @@ class MobxListClass extends Component {
         <View onClick={addItem}>点击新增数组</View>
         <View>
           {
-            unfinishedList.map(item => <Text className="list-item">{item.id}</Text>)
+            unfinishedList.map(item => <View className="list-item">{item.id}</View>)
           }
         </View>
       </View>

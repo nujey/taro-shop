@@ -20,7 +20,7 @@ class mobxListStore {
   @action.bound
   handleCheckBox = (e) => {
     console.log(e)
-    this.status = e.target.value
+    this.status = e.target.checked
   }
   @action.bound
   setList = (list) => {
@@ -29,6 +29,7 @@ class mobxListStore {
 
   @action.bound
   addItem = () => {
+    console.log(this.unfinishedList)
     this.todos.push({id: this.title, status: this.status})
   }
   

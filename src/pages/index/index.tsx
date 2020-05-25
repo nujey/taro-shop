@@ -5,6 +5,7 @@ import { observer, inject } from '@tarojs/mobx'
 import './index.scss'
 import { MobxListClass } from '../../mobx-component/mobx-list'
 import {  MobxListClassTs } from '../../mobx-component/mobx-list-ts'
+import MobxListFun from '../../mobx-component/mobx-fnlist'
 import { observable } from 'mobx'
 
 type PageStateProps = {
@@ -71,6 +72,8 @@ class Index extends Component {
       <View className='index'>
         {person.name}
         <MobxListClass person={person}/>
+        <hr/>
+        <MobxListFun />
         <MobxListClassTs person={person}/>
       </View>
     )

@@ -1,12 +1,8 @@
 import { observable, action, computed, runInAction } from 'mobx'
-import { fetchSomeThing, fetchList } from '../api/api'
+import { fetchSomeThing, test1 } from '../api/api'
 class OrderItem {
   id: number | string
   status: boolean
-}
-interface obj {
-  data: Array<any>
-  error: string
 }
 class mobxListStore {
   @observable title:string = ''
@@ -41,7 +37,7 @@ class mobxListStore {
 
   @action.bound
   clearItem1() {
-    fetchSomeThing().then(
+    fetchSomeThing(2).then(
       action('success', res => {
         this.todos = res
       }),
@@ -53,7 +49,7 @@ class mobxListStore {
 
   @action
   clearItem2() {
-    fetchSomeThing().then(
+    fetchSomeThing(3).then(
       res => {
         const filterRes = []
         runInAction(() => {
@@ -70,7 +66,7 @@ class mobxListStore {
   @action.bound
   async clearItem() {
     try {
-      const res = await fetchSomeThing()
+      const res = await fetchSomeThing(3)
       runInAction(() => {
         this.todos = res.data
       })

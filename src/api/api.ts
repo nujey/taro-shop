@@ -1,5 +1,5 @@
 
-export const fetchSomeThing = () => {
+export const fetchSomeThing: (a:number) => Promise<{data: any[], error: string}> = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const res = {
@@ -11,9 +11,25 @@ export const fetchSomeThing = () => {
   })
 }
 
-export async function fetchList() {
+export const test1:() => Promise<any> = async () => {
+  return {
+    data: []
+  }
+}
+
+export const fetchList: () => Array<any> = () => {
   return []
 }
 
+export const main = new Promise<number>((resolve) => {
+  resolve(1)
+})
+
+export const main1 = new Promise((resolve: (value: number) => void) => {
+  resolve(20)
+})
+
+
 export const myAdd: (x:number, y:number) => number =
 function(x: number, y: number): number { return x + y; };
+

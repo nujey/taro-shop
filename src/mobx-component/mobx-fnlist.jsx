@@ -8,7 +8,6 @@ import { View } from '@tarojs/components'
 import { observer } from '@tarojs/mobx'
 // mobx taro版本 的暂时不支持
 const MobxListFun = () => {
-  console.log(2222)
   return (
     <View>
       <Text>2222</Text>

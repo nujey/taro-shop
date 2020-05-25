@@ -1,8 +1,12 @@
-import { observable, action, computed } from 'mobx'
-
+import { observable, action, computed, runInAction } from 'mobx'
+import { fetchSomeThing, fetchList } from '../api/api'
 class OrderItem {
   id: number | string
   status: boolean
+}
+interface obj {
+  data: Array<any>
+  error: string
 }
 class mobxListStore {
   @observable title:string = ''
@@ -14,31 +18,65 @@ class mobxListStore {
     return this.todos.filter(item => !item.status) || []
   }
 
-  @action.bound
+  @action
   handleCheckBox = (e) => {
     console.log(e)
     this.status = e.target.checked
   }
-  @action.bound
+  @action
   setList = (list) => {
     this.todos = list
   }
 
-  @action.bound
+  @action
   addItem = () => {
     this.todos.push({id: this.title, status: this.status})
   }
   
   @action.bound
-  removeItem = (item) => {
+  removeItem(item) {
     const list = this.todos.filter(i => i.id !== item.id)
     this.setList(list)
   }
 
   @action.bound
-  clearItem = (item) => {
-    // const list = await getList()
-    this.setList(item)
+  clearItem1() {
+    fetchSomeThing().then(
+      action('success', res => {
+        this.todos = res
+      }),
+      action('error', error => {
+        console.log(error)
+      })
+    )
+  }
+
+  @action
+  clearItem2() {
+    fetchSomeThing().then(
+      res => {
+        const filterRes = []
+        runInAction(() => {
+          this.todos = filterRes || res
+        })
+      },
+      error => {
+        runInAction(() => {
+          this.title = error
+        })
+      }
+    )
+  }
+  @action.bound
+  async clearItem() {
+    try {
+      const res = await fetchSomeThing()
+      runInAction(() => {
+        this.todos = res.data
+      })
+    } catch(error) {
+      this.title = error
+    }
   }
 }
 

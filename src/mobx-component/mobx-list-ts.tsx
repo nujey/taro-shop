@@ -1,7 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { observer, inject } from '@tarojs/mobx'
 import { observable, computed, action, configure } from 'mobx'
-import { View } from '@tarojs/components'
+import { View, Button } from '@tarojs/components';
+// import './mobxlist.scss';
 interface Props {
   person: {
     name: string
@@ -13,7 +14,6 @@ class TodoItem {
 }
 configure({ enforceActions: 'observed' })
 @inject('counterStore')
-@inject('messageStore')
 @observer
 class MobxListClassTs extends Component<Props, {}> {
   @observable private title:string = '1'
@@ -25,7 +25,6 @@ class MobxListClassTs extends Component<Props, {}> {
 
   @action.bound
   handlePushTodo():void {
-    console.log(this.props)
     this.props.person.name = 'TS组件'
     const obj = {id: this.title, status: true}
     this.todos.push(obj)
@@ -33,8 +32,7 @@ class MobxListClassTs extends Component<Props, {}> {
   render() {
     return (
       <View>
-        list{this.title} ~ {this.unfinishedList.length}
-        <View onClick={this.handlePushTodo}>点击新增数组</View>
+        <Button className="add-item" onClick={this.handlePushTodo}>点击新增数组</Button>
       </View>
     )
   }

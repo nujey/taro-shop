@@ -35,46 +35,18 @@ class Index extends Component {
   config: Config = {
     navigationBarTitleText: '首页'
   }
-
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillReact')
+  handleGoodsList() {
+    Taro.navigateTo({
+      url: '../goods/goods-list?from=首页'
+    })
   }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  increment = () => {
-    const { counterStore } = this.props
-    counterStore.increment()
-  }
-
-  decrement = () => {
-    const { counterStore } = this.props
-    counterStore.decrement()
-  }
-
-  incrementAsync = () => {
-    const { counterStore } = this.props
-    counterStore.incrementAsync()
-  }
-
   render () {
     const { counterStore: { counter } } = this.props
     console.log(counter)
     return (
       <View className='index'>
-        {person.name}
         <MobxListClass person={person}/>
-        <hr/>
-        <MobxListFun />
-        <MobxListClassTs person={person}/>
+        <View className="goods-list" onClick={this.handleGoodsList}>商品列表</View>
       </View>
     )
   }

@@ -24,27 +24,22 @@ class MobxListClass extends Component {
     this.increment()
     mobxListStore.addItem()
   }
-  clearItem = () => {
-    const { mobxListStore } = this.props
-    mobxListStore.clearItem()
-  }
-  handleCheckBox = () => {
+  handleCheckBox = (e) => {
     const { mobxListStore } = this.props
     mobxListStore.handleCheckBox()
   }
   render() {
-    const { mobxListStore: { title, unfinishedList } } = this.props
+    const { mobxListStore: { title, status, unfinishedList } } = this.props
     const { counterStore: { count } } = this.props
     return (
       <View>
         {count}
         <View className="add-flex">
-          <Input type="text" className="list-name" value={title} onChange={this.handleInput}/>
-          <Checkbox onChange={this.handleCheckBox}></Checkbox>
+          姓名: <Input type="text" className="list-name" value={title} onChange={this.handleInput}/>
         </View>
         <Button onClick={this.addItem} className="add-item">点击新增数组</Button>
-        <Button onClick={this.clearItem} className="add-item">清空数组</Button>
-        <View>
+        <Button onClick={this.props.mobxListStore.clearItem} className="add-item">清空数组</Button>
+        <View className="">
           {
             unfinishedList.map(item => <View className="list-item">{item.id}</View>)
           }

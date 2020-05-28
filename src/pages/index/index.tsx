@@ -20,6 +20,7 @@ type PageStateProps = {
 interface Index {
   props: PageStateProps
 }
+
 const person = observable({ name: 'name' })
 @inject('counterStore')
 @observer

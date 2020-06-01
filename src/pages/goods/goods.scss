@@ -7,19 +7,35 @@ page {
   align-items: center;
   justify-content: space-around;
   background: #fff;
-  .tab-item {
-    color: #333;
+}
+.tab-item {
+  color: #333;
+}
+.tab-active-item {
+  color: #009944;
+  position: relative;
+  &::after {
+    position: absolute;
+    bottom: -10px; left: 25%;
+    width: 50%;
+    height: 6px;
+    background: #009944;
+    content: '';
   }
-  .tab-active-item {
-    color: #009944;
-    position: relative;
-    &::after {
-      position: absolute;
-      bottom: 0; left: 25%;
-      width: 50%;
-      height: 4px;
-      background: #009944;
-      content: '';
-    }
+}
+.good-list {
+  margin-top: 24px;
+}
+.item-good {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #fff;
+  margin-bottom: 5px;
+  .good-item-remove {
+    width: 24px;
+    height: 24px;
   }
 }

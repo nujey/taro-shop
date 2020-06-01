@@ -1,14 +1,25 @@
 import { observable, computed, action } from "mobx"
+import { goodsList } from './map'
 class GoodItem {
   id: number | string
   name: string
-  status?: boolean
+  status?: number
 }
 class GoodStore {
-  @observable goodList:Array<GoodItem> = [{id: 1, name: 'zhangfeng', status: false}, {id: 2, name: 'CC', status: false}]
+  @observable goodList: Array<GoodItem> = goodsList
+  @observable goodType: number = 1
   @computed
-  get goodItem():boolean {
-    return false
+  get currentGoodItem(): Array<GoodItem> {
+    return this.goodList.filter(e => e.status === this.goodType) || []
+  }
+  /**
+   * 筛选列表
+   * @param type 
+   */
+  @action.bound
+  changeGoodType(type) {
+    this.goodType = type
+    console.log(this.goodList.length, this.currentGoodItem.length)
   }
   /**
    * 添加商品列表
@@ -22,9 +33,10 @@ class GoodStore {
    * 删除商品选项
    * @param index
    */
-  @action
+  @action.bound
   removeGoodItem(index) {
-    this.goodList.splice(index, 1)
+    console.log(index)
+    this.goodList = this.goodList.filter(item => item.id !== index)
   }
 }
 

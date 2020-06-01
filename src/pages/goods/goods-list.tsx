@@ -1,25 +1,60 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import className from 'classnames'
-import GoodsItem from './goods-item'
 import TopperTab from './topper-tab'
 import './goods.scss'
 import { inject, observer } from '@tarojs/mobx'
-// @inject('')
+import GoodItem from './goods-item'
+interface P {
+  goodStore
+}
+interface S {
+  tabs
+  tabIndex
+  list
+}
+@inject('goodStore')
 @observer
-class goodsList extends Taro.Component {
+class goodsList extends Taro.Component<P, S> {
   state = {
-    tabs: [{id: 1, name:'待支付'}, {id: 2, name: '已付款'}]
+    tabs: [{ id: 1, name: '待支付' }, { id: 2, name: '已付款' }],
+    tabIndex: 1,
+    list: [{ id: 1, name: '待支付111' }, { id: 2, name: '已付款222' }]
+  }
+  // 切换tab的时候
+  handleTabItem = (id) => {
+    this.setState({
+      tabIndex: id
+    })
+    this.props.goodStore.changeGoodType(id)
+  }
+  componentWillReceiveProps() {
+    console.log(111)
+  }
+  componentWillMount() {
+    console.log(222)
+  }
+  handleRemove = (i) => {
+    const { goodStore } = this.props
+    goodStore.removeGoodItem(i)
   }
   render() {
+    const { goodStore: { goodList, currentGoodItem } } = this.props
+    
+    // const listMap = this.state.list.map(item => <GoodItem name={item.name} key={item.id} />)
+    const listMap2 = [{name: '222', id: 1}].map(item => <View key={item.id}>{item.name}</View>)
     return (
       <View>
         <View className="tab-topper">
           {
-            this.state.tabs.map(item => <TopperTab tab={item}/>)
+            this.state.tabs.map(item => <TopperTab tab={item} key={item.id} handleTabItem={this.handleTabItem} tabIndex={this.state.tabIndex} />)
           }
         </View>
-        {/* <GoodsItem item={item}/> */}
+        <View className="good-list">
+          {
+            this.state.list.map(item => <GoodItem kg={item.name} key={item.id} />)
+          }
+          {listMap2}
+        </View>
       </View>
     )
   }

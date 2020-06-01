@@ -1,45 +1,38 @@
-/// <reference path="../../../global.d.ts"/>
+// / <reference path="../../../global.d.ts"/>
 
 import Taro from '@tarojs/taro';
 import { View } from '@tarojs/components';
-
+import className from 'classnames'
+import './goods.scss'
+// 类
 class PropsType {
-  id: any
+  id: number
   name: string
 }
+// 泛型接口
 interface P {
-  tab: PropsType
+  tab: PropsType,
+  tabIndex: number
+  handleTabItem(id: number): void
 }
 
+// interface itemInteface<T> {
+//   (arg: T): void
+// }
 function TopperTab(props: P): JSX.Element {
-  const { tab } = props
-  return <View>{ tab.name }</View>
+  const { tab, tabIndex, handleTabItem } = props
+  // const [tabIndex, setTabIndex] = useState(1)
+
+  // 泛型类型的函数
+  // const handleTabItem: <T>(arg: T) => void = () => {
+  //   console.log(tabIndex)
+  // }
+
+  // const handleTabItem1: itemInteface = (id) => {
+  //   console.log(id)
+  // }
+  // 'tab-active-item': tabIndex == tab.id
+  return <View className={className({ 'tab-item': true })} onClick={() => handleTabItem(tab.id)}>{tab.name}</View>
 }
 
 export default TopperTab
-
-
-
-// interface ClockConstructor {
-//   new (hour:number, min:number): ClockInterface
-// }
-// interface ClockInterface {
-//   tick()
-// }
-
-// function createClock(ctor: ClockConstructor, hour:number, minute:number): ClockInterface {
-//   return new ctor(hour, minute)
-// }
-
-// class DigitalClock implements ClockInterface {
-//   constructor(h:number, m:number) {}
-//   tick() {}
-// }
-
-// let digital = createClock(DigitalClock, 12, 17)
-
-// class A implements ClockInterface {
-//   constructor(h:number, m: number) {}
-// }
-
-// interfaceA extends interfaceB

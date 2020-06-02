@@ -39,10 +39,7 @@ class goodsList extends Taro.Component<P, S> {
   }
   render() {
     const { goodStore: { goodList, currentGoodItem } } = this.props
-    
-    // const listMap = this.state.list.map(item => <GoodItem name={item.name} key={item.id} />)
-    const listMap2 = [{name: '222', id: 1}].map(item => <View key={item.id}>{item.name}</View>)
-    return (
+        return (
       <View>
         <View className="tab-topper">
           {
@@ -53,7 +50,6 @@ class goodsList extends Taro.Component<P, S> {
           {
             this.state.list.map(item => <GoodItem kg={item.name} key={item.id} />)
           }
-          {listMap2}
         </View>
       </View>
     )

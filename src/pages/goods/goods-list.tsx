@@ -28,7 +28,7 @@ class goodsList extends Taro.Component<P, S> {
     this.props.goodStore.changeGoodType(id)
   }
   componentWillReceiveProps() {
-    console.log(111)
+    // console.log(111)
   }
   componentWillMount() {
     console.log(222)
@@ -39,7 +39,8 @@ class goodsList extends Taro.Component<P, S> {
   }
   render() {
     const { goodStore: { goodList, currentGoodItem } } = this.props
-        return (
+    console.log(this.state.list, 111)
+    return (
       <View>
         <View className="tab-topper">
           {

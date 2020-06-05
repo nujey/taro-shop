@@ -18,6 +18,9 @@ interface P {
   kg: string
 }
 function GoodItem(props: P):JSX.Element {
+  // static defaultProps = {
+  //   kg: ''
+  // }
   const { kg } = props
   return (
     <View className="item-good">

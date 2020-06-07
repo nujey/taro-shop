@@ -15,19 +15,15 @@ import './goods.scss'
 //   name: ''
 // }
 interface P {
-  kg: string
+  kg: string,
+  handleRemove(i:number):void
 }
 function GoodItem(props: P):JSX.Element {
-  // static defaultProps = {
-  //   kg: ''
-  // }
   const { kg } = props
-  return (
-    <View className="item-good">
+  return <View className="item-good">
       <View className="good-name">{kg}</View>
       <Icon size='20' type='clear'/>
     </View>
-  )
 }
 
 export default GoodItem

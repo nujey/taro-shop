@@ -10,15 +10,13 @@ interface P {
 interface S {
   tabs
   tabIndex
-  list
 }
 @inject('goodStore')
 @observer
 class goodsList extends Taro.Component<P, S> {
   state = {
     tabs: [{ id: 1, name: '待支付' }, { id: 2, name: '已付款' }],
-    tabIndex: 1,
-    list: [{ id: 1, name: '待支付111' }, { id: 2, name: '已付款222' }]
+    tabIndex: 1
   }
   // 切换tab的时候
   handleTabItem = (id) => {
@@ -37,9 +35,22 @@ class goodsList extends Taro.Component<P, S> {
     const { goodStore } = this.props
     goodStore.removeGoodItem(i)
   }
+  currentGoodList = () => {
+    const { goodStore: { currentGoodItemOne, currentGoodItemTwo } } = this.props
+    if (this.state.tabIndex === 1) {
+      return currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
+    } else {
+      currentGoodItemTwo.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
+    }
+  }
   render() {
-    const { goodStore: { goodList, currentGoodItem } } = this.props
-    console.log(this.state.list, 111)
+    // let currentGoodList;
+    const { goodStore: { currentGoodItemOne, currentGoodItemTwo } } = this.props
+    // if (this.state.tabIndex === 1) {
+    //   currentGoodList =  currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
+    // } else {
+    //   currentGoodList = currentGoodItemTwo.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
+    // }
     return (
       <View>
         <View className="tab-topper">
@@ -49,8 +60,12 @@ class goodsList extends Taro.Component<P, S> {
         </View>
         <View className="good-list">
           {
-            this.state.list.map(item => <GoodItem kg={item.name} key={item.id} />)
+            currentGoodItemOne.map(item => <TopperTab tab={item} key={item.id} />)
           }
+          {
+            currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
+          }
+          {/* {currentGoodList} */}
         </View>
       </View>
     )

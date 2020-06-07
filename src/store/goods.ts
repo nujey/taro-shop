@@ -9,8 +9,11 @@ class GoodStore {
   @observable goodList: Array<GoodItem> = goodsList
   @observable goodType: number = 1
   @computed
-  get currentGoodItem(): Array<GoodItem> {
-    return this.goodList.filter(e => e.status === this.goodType) || []
+  get currentGoodItemOne(): Array<GoodItem> {
+    return this.goodList.filter(e => e.status === 1) || []
+  }
+  get currentGoodItemTwo(): Array<GoodItem> {
+    return this.goodList.filter(e => e.status === 2) || []
   }
   /**
    * 筛选列表
@@ -19,7 +22,7 @@ class GoodStore {
   @action.bound
   changeGoodType(type) {
     this.goodType = type
-    console.log(this.goodList.length, this.currentGoodItem.length)
+    console.log(this.goodList.length, this.currentGoodItemTwo.length)
   }
   /**
    * 添加商品列表

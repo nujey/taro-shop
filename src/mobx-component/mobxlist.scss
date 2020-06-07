@@ -1,0 +1,21 @@
+.add-flex {
+  display: flex;
+}
+.list-name {
+  border: 1px solid #eee;;
+}
+.add-item {
+  width: 400px;
+  color: #38adff;
+}
+.list-item {
+  margin: 12px;
+  background: #38adff;
+  color: #fff;
+  text-align: center;
+  line-height: 60px;
+  display: inline-block;
+  border-radius: 10px;
+  text-align: center;
+  // @include list-item();
+}

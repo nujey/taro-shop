@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style scoped>
+  .container {
+    background-color: rgb(238, 238, 238);
+    height: 800px;
+  }
+  .group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  .top-container {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border: 2px dotted #000;
+  }
+  
+</style>
+
+<body>
+  <div class="container" id="app">
+    <div class="group" v-for="(group,gindex) in data" :key="'item1' + gindex">
+      <div class="top-container" v-for="(item,cindex) in group.children" :key="cindex" :data-id="gindex +'-'+ cindex + '-topper'"
+        draggable="true"
+        @dragstart="onDragstart($event)"
+        @dragend="onDragend($event)"
+        @dragover="onDragover($event)"
+        @drop="onDrop($event)" :style="{'background-color': item.color}">
+        <div class="content">{{item.color ? item.color + gindex+ cindex : item.id + '我是空'}}</div>
+      </div>
+    </div>
+    <hr>
+    <div class="group" v-for="(group, sindex) in source" :key="'item2' + sindex">
+      <div class="top-container" v-for="(item, cindex) in group.children" :key="cindex" :data-id="sindex +'-'+ cindex + '-source'"
+        draggable="true"
+        @dragstart="onDragstart($event)"
+        @dragend="onDragend($event)"
+        @dragover="onDragover($event)"
+        @drop="onDrop($event)" :style="{'background-color': item.color}">
+        <div class="content">{{item.color}}</div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  var el = new Vue({
+    el: '#app',
+    data() {
+      return {
+        stargindex: "",
+        endIndex: "",
+        data: [{
+          group: "left-show",
+          title: "视频播放区一",
+          children: [
+            { id: 1, color: "" },
+            { id: 2, color: "" },
+            { id: 3, color: "" },
+            { id: 4, color: "" },
+            { id: 5, color: "" },
+            { id: 6, color: "" },
+            { id: 7, color: "" },
+            { id: 8, color: "" },
+            { id: 9, color: "" },
+            { id: 10, color: "" },
+            { id: 11, color: "" },
+            { id: 12, color: "" }
+          ]
+        }],
+        source: [{
+          group: "source",
+          title: "视频资源区",
+          children: [
+            { id: 111, color: "red" },
+            { id: 222, color: "orange" },
+            { id: 333, color: "yellow" },
+            { id: 444, color: "green" },
+            { id: 555, color: "blue" },
+            { id: 666, color: "cyan " },
+            { id: 777, color: "purple" },
+          ]
+        }]
+      };
+    },
+    methods: {
+      // 被拖动的时候
+      onDragstart(event) {
+        this.stargindex = this.endIndex = ''
+        this.stargindex = event.target.getAttribute("data-id");
+      },
+      onDragend(event) {
+        let startGroupIndex = this.stargindex.split("-")[0];
+        let startChildIndex = this.stargindex.split("-")[1];
+        let startType = this.stargindex.split('-')[2]
+
+        let endGroupIndex = this.endIndex.split("-")[0];
+        let endChildIndex = this.endIndex.split("-")[1];
+        let endType = this.endIndex.split('-')[2]
+
+        if (endType === 'source' || !this.endIndex) {
+          return
+        }
+        let startObj = startType === 'topper' ? this.data[startGroupIndex].children[startChildIndex]
+                      : this.source[startGroupIndex].children[startChildIndex]
+        // 从下往上的移动
+        if (startType === 'source') {
+          // 已经存在的话 不进行新增
+          if (this.data[endGroupIndex].children.filter(e => e.color === startObj.color).length > 0) {
+            return
+          }
+          this.data[endGroupIndex].children.splice(endChildIndex, 1, startObj)
+        } else {
+          this.swapArray(startChildIndex, endChildIndex)
+        }
+      },
+      onDrop(event) {
+        console.log('onDrop')
+        if (event.target.className.indexOf("top-container") > -1) {
+          this.endIndex = event.target.getAttribute("data-id");
+        } else {
+          this.endIndex = event.target.parentElement.getAttribute("data-id");
+        }
+      },
+      // 设置 在何处放置可拖动的数据
+      onDragover(event) {
+        event.preventDefault();
+      },
+      swapArray(from, to) {
+        const temp = this.data[0].children.slice(0)
+        this.data[0].children.splice(from, 1, temp[to])
+        this.data[0].children.splice(to, 1, temp[from])
+      }
+    }
+  })
+</script>
+
+</html>

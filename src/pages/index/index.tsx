@@ -1,11 +1,12 @@
 import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
-import Footer  from '../../components/footer/footer'
-import ButtonHook from '../../components/button/button'
 import './index.scss'
-import Hello from '../../components/statefulBtn/statefulbtn'
+import { MobxListClass } from '../../mobx-component/mobx-list'
+import {  MobxListClassTs } from '../../mobx-component/mobx-list-ts'
+import MobxListFun from '../../mobx-component/mobx-fnlist'
+import { observable } from 'mobx'
 
 type PageStateProps = {
   counterStore: {
@@ -20,6 +21,7 @@ interface Index {
   props: PageStateProps
 }
 
+const person = observable({ name: 'name' })
 @inject('counterStore')
 @observer
 class Index extends Component {
@@ -32,44 +34,20 @@ class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页111'
+    navigationBarTitleText: '首页'
   }
-
-  componentWillMount () { }
-
-  componentWillReact () {
-    console.log('componentWillReact')
+  handleGoodsList() {
+    Taro.navigateTo({
+      url: '../goods/goods-list?from=首页'
+    })
   }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  increment = () => {
-    const { counterStore } = this.props
-    counterStore.increment()
-  }
-
-  decrement = () => {
-    const { counterStore } = this.props
-    counterStore.decrement()
-  }
-
-  incrementAsync = () => {
-    const { counterStore } = this.props
-    counterStore.incrementAsync()
-  }
-
   render () {
     const { counterStore: { counter } } = this.props
     console.log(counter)
     return (
       <View className='index'>
-       <Hello name="杠精"></Hello>
+        <MobxListClass person={person}/>
+        <View className="goods-list" onClick={this.handleGoodsList}>商品列表</View>
       </View>
     )
   }

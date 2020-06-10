@@ -30,7 +30,8 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/goods/goods-list',
-      'pages/goods/goods-item'
+      'pages/goods/goods-item',
+      'pages/mine/mine'
     ],
     window: {
       backgroundTextStyle: 'light',

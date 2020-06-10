@@ -6,14 +6,16 @@ class GoodItem {
   status?: number
 }
 class GoodStore {
-  @observable goodList: Array<GoodItem> = goodsList
+  @observable goods: Array<GoodItem> = goodsList
   @observable goodType: number = 1
+  @observable currentGood: Array<GoodItem> = this.goods.filter(e => e.status === this.goodType)
   @computed
   get currentGoodItemOne(): Array<GoodItem> {
-    return this.goodList.filter(e => e.status === 1) || []
+    return this.goods.filter(e => e.status === 1) || []
   }
+  @computed
   get currentGoodItemTwo(): Array<GoodItem> {
-    return this.goodList.filter(e => e.status === 2) || []
+    return this.goods.filter(e => e.status === 2) || []
   }
   /**
    * 筛选列表
@@ -22,15 +24,15 @@ class GoodStore {
   @action.bound
   changeGoodType(type) {
     this.goodType = type
-    console.log(this.goodList.length, this.currentGoodItemTwo.length)
+    this.currentGood = this.goods.filter(e => e.status === this.goodType)
   }
   /**
    * 添加商品列表
    * @param item 
    */
   @action.bound
-  setGoodList(item) {
-    this.goodList.push(item)
+  setgoods(item) {
+    this.goods.push(item)
   }
   /**
    * 删除商品选项
@@ -38,8 +40,8 @@ class GoodStore {
    */
   @action.bound
   removeGoodItem(index) {
-    console.log(index)
-    this.goodList = this.goodList.filter(item => item.id !== index)
+    this.goods.splice(index, 1)
+    this.currentGood = this.goods.filter(e => e.status === this.goodType)
   }
 }
 

@@ -25,32 +25,12 @@ class goodsList extends Taro.Component<P, S> {
     })
     this.props.goodStore.changeGoodType(id)
   }
-  componentWillReceiveProps() {
-    // console.log(111)
-  }
-  componentWillMount() {
-    console.log(222)
-  }
   handleRemove = (i) => {
     const { goodStore } = this.props
     goodStore.removeGoodItem(i)
   }
-  currentGoodList = () => {
-    const { goodStore: { currentGoodItemOne, currentGoodItemTwo } } = this.props
-    if (this.state.tabIndex === 1) {
-      return currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
-    } else {
-      currentGoodItemTwo.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
-    }
-  }
   render() {
-    // let currentGoodList;
-    const { goodStore: { currentGoodItemOne, currentGoodItemTwo } } = this.props
-    // if (this.state.tabIndex === 1) {
-    //   currentGoodList =  currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
-    // } else {
-    //   currentGoodList = currentGoodItemTwo.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
-    // }
+    const { goodStore: { currentGood, currentGoodItemOne, currentGoodItemTwo }} = this.props
     return (
       <View>
         <View className="tab-topper">
@@ -60,12 +40,14 @@ class goodsList extends Taro.Component<P, S> {
         </View>
         <View className="good-list">
           {
-            currentGoodItemOne.map(item => <TopperTab tab={item} key={item.id} />)
+            currentGood.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
           }
-          {
-            currentGoodItemOne.map(item => <GoodItem kg={item.name} key={item.id} handleRemove={this.handleRemove} />)
-          }
-          {/* {currentGoodList} */}
+          {/* {
+            this.state.tabIndex === 1 ?
+              currentGoodItemOne.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
+              :
+              currentGoodItemTwo.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
+          } */}
         </View>
       </View>
     )

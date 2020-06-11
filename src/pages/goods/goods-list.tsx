@@ -3,6 +3,7 @@ import { View } from '@tarojs/components'
 import TopperTab from './topper-tab'
 import './goods.scss'
 import { inject, observer } from '@tarojs/mobx'
+import { autorun, when } from 'mobx'
 import GoodItem from './goods-item'
 interface P {
   goodStore
@@ -28,9 +29,12 @@ class goodsList extends Taro.Component<P, S> {
   handleRemove = (i) => {
     const { goodStore } = this.props
     goodStore.removeGoodItem(i)
+    // autorun(() => {
+    //   console.log(goodStore.currentGood.length)
+    // })
   }
   render() {
-    const { goodStore: { currentGood, currentGoodItemOne, currentGoodItemTwo }} = this.props
+    const { goodStore: { currentGood, txt }} = this.props
     return (
       <View>
         <View className="tab-topper">
@@ -42,12 +46,9 @@ class goodsList extends Taro.Component<P, S> {
           {
             currentGood.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
           }
-          {/* {
-            this.state.tabIndex === 1 ?
-              currentGoodItemOne.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
-              :
-              currentGoodItemTwo.map((item, index) => <GoodItem kg={item.name} idx={index} key={item.id} handleRemove={this.handleRemove} />)
-          } */}
+        </View>
+        <View>
+          {txt}
         </View>
       </View>
     )

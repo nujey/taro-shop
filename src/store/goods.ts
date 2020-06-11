@@ -1,4 +1,4 @@
-import { observable, computed, action } from "mobx"
+import { observable, computed, action, when } from "mobx"
 import { goodsList } from './map'
 class GoodItem {
   id: number | string
@@ -8,6 +8,8 @@ class GoodItem {
 class GoodStore {
   @observable goods: Array<GoodItem> = goodsList
   @observable goodType: number = 1
+  @observable num: number = 0
+  @observable txt = ''
   @observable currentGood: Array<GoodItem> = this.goods.filter(e => e.status === this.goodType)
   @computed
   get currentGoodItemOne(): Array<GoodItem> {
@@ -24,7 +26,13 @@ class GoodStore {
   @action.bound
   changeGoodType(type) {
     this.goodType = type
+    when(() => this.goodType === 2, () => this.dispose())
     this.currentGood = this.goods.filter(e => e.status === this.goodType)
+  }
+  dispose () {
+    console.log('取消了')
+    this.num = this.num + 1
+    this.txt = `被取消了${this.num}次`
   }
   /**
    * 添加商品列表

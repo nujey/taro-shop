@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import moment from 'moment'
 import { View } from '@tarojs/components'
 import TopperTab from './topper-tab'
 import './goods.scss'
@@ -25,6 +26,9 @@ class goodsList extends Taro.Component<P, S> {
       tabIndex: id
     })
     this.props.goodStore.changeGoodType(id)
+    const t = moment().startOf('week').format('YYYY-MM-DD')
+    const e = moment().endOf('week').format('YYYY-MM-DD')
+    console.log(t, e)
   }
   handleRemove = (i) => {
     const { goodStore } = this.props

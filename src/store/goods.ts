@@ -45,7 +45,8 @@ class GoodStore {
   }
   /**
    * 删除商品选项
-   * @param index
+   * @param index 索引
+   * @returns 对应项
    */
   @action.bound
   removeGoodItem(index) {

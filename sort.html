@@ -138,35 +138,6 @@
         })
       }
     })
-
-
-
-
-
-
-
-
-
-
-
-
-
-    var a = [{name: 'd'}, {name: 'a'}, {name: 'b'},{name: 'c'}]
-    var b = [{name: 'a', sort: 1}, {name: 'b', sort: 2}, {name: 'c', sort: 3},{name: 'd', sort: 4}, {name: 'e', sort: 5}]
-    b.forEach(item => {
-      a.forEach(child => {
-        if (child.name === item.name) {
-          child.sort = item.sort
-        }
-      })
-    })
-    function resort(arg) {
-      return function (a, b) {
-        return a[arg] - b[arg]
-      }
-    }
-    a.sort(resort('sort'))
-    console.log(a)
   </script>
 </body>
 </html>

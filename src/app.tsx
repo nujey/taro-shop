@@ -1,11 +1,23 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
-import Index from './pages/index'
+import Index from './pages/index/index'
+// import Mine from './pages/mine.tsx'
+// import models from './models/index'
+// import { create } from 'dva-core'
 
 // import counterStore from './store/counter'
 import rootStore from './store/rootStore'
 
 import './app.scss'
+
+// const app = create({
+//   initialState: {}
+// })
+// app.model(models)
+// app.start(); // 这一步必须要有 否则很多方法不会注册成功
+// const store = app._store
+// app.dispatch = store.dispatch
+// console.log(store)
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：

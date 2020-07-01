@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components'
+// import { connect } from '@tarojs/redux'
 
 interface P {}
 interface S {}
@@ -14,4 +15,7 @@ class Mine extends Taro.Component<P, S> {
   }
 }
 
+// export default connect(({ mine }) => {
+//   mineTitle: mine.mineTitle
+// })(Mine)
 export default Mine

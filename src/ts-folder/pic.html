@@ -1,0 +1,313 @@
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title> PIXCEL </title>
+  <script type="text/javascript">
+    function $(id) {
+      return (typeof (id) == 'string') ? document.getElementById(id) : id;
+    }
+
+    function RGBA(r, g, b, a) {
+      return ("rgba(" + r + ", " + g + ", " + b + ", " + a + ")");
+    }
+
+    function RGB(r, g, b) {
+      return ("rgb(" + r + ", " + g + ", " + b + ")");
+    }
+
+    function randRGB(a) {
+      var r = Math.floor(Math.random() * 200 + 50);
+      var g = Math.floor(Math.random() * 200 + 50);
+      var b = Math.floor(Math.random() * 200 + 50);
+      if (a)
+        return RGBA(r, g, b, a);
+      else
+        return RGB(r, g, b);
+    }
+
+    function randInt(m, n) {
+      return Math.round(Math.random() * (n - m)) + m;
+    }
+
+    function ImageData2RGBA(imgdata) {
+      var d = imgdata.data;
+      var w = imgdata.width;
+      var h = imgdata.height;
+      var rgba = new Array(h);
+      for (var i = 0; i < h; i++) {
+        rgba[i] = new Array(w);
+        for (var j = 0; j < w; j++) {
+          var s = (i * w + j) * 4;
+          rgba[i][j] = {
+            r: d[s],
+            g: d[s + 1],
+            b: d[s + 2],
+            a: d[s + 3]
+          };
+        }
+      }
+      return rgba;
+    }
+
+    function RGBA2ImageData(rgba, imgdata) {
+      var d = imgdata.data;
+      var w = imgdata.width;
+      var h = imgdata.height;
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var s = (i * w + j) * 4;
+          var c = rgba[i][j];
+          d[s] = c.r;
+          d[s + 1] = c.g;
+          d[s + 2] = c.b;
+          d[s + 3] = c.a;
+        }
+      }
+      return imgdata;
+    }
+
+    function fOriginal(pix, w, h) {
+      return pix;
+    }
+
+    function fOldPhoto(pix, w, h) {
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          p.b *= 0.8;
+          p.r *= 1.1;
+        }
+      }
+      return pix;
+    }
+
+    function fSoften(pix, w, h) {
+      var pix2 = pix.slice(0);
+      for (var i = 1; i < h - 1; i++) {
+        for (var j = 1; j < w - 1; j++) {
+          var p = pix[i][j];
+          p.r = (pix2[i - 1][j - 1].r + pix2[i - 1][j].r + pix2[i - 1][j + 1].r + pix2[i][j - 1].r + pix2[i][j + 1].r +
+            pix2[i + 1][j - 1].r + pix2[i + 1][j].r + pix2[i + 1][j + 1].r) / 8;
+          p.g = (pix2[i - 1][j - 1].g + pix2[i - 1][j].g + pix2[i - 1][j + 1].g + pix2[i][j - 1].g + pix2[i][j + 1].g +
+            pix2[i + 1][j - 1].g + pix2[i + 1][j].g + pix2[i + 1][j + 1].g) / 8;
+          p.b = (pix2[i - 1][j - 1].b + pix2[i - 1][j].b + pix2[i - 1][j + 1].b + pix2[i][j - 1].b + pix2[i][j + 1].b +
+            pix2[i + 1][j - 1].b + pix2[i + 1][j].b + pix2[i + 1][j + 1].b) / 8;
+          p.a *= 0.99;
+        }
+      }
+      return pix;
+    }
+
+    function fSharpen(pix, w, h) {
+      var pix2 = pix.slice(0);
+      for (var i = 1; i < h - 1; i++) {
+        for (var j = 1; j < w - 1; j++) {
+          var p = pix[i][j];
+          p.r = p.r * 2 - (pix2[i - 1][j - 1].r + pix2[i - 1][j].r + pix2[i - 1][j + 1].r + pix2[i][j - 1].r + pix2[i][
+            j + 1
+          ].r + pix2[i + 1][j - 1].r + pix2[i + 1][j].r + pix2[i + 1][j + 1].r) / 8;
+          p.g = p.g * 2 - (pix2[i - 1][j - 1].g + pix2[i - 1][j].g + pix2[i - 1][j + 1].g + pix2[i][j - 1].g + pix2[i][
+            j + 1
+          ].g + pix2[i + 1][j - 1].g + pix2[i + 1][j].g + pix2[i + 1][j + 1].g) / 8;
+          p.b = p.b * 2 - (pix2[i - 1][j - 1].b + pix2[i - 1][j].b + pix2[i - 1][j + 1].b + pix2[i][j - 1].b + pix2[i][
+            j + 1
+          ].b + pix2[i + 1][j - 1].b + pix2[i + 1][j].b + pix2[i + 1][j + 1].b) / 8;
+          p.a *= 1.05;
+        }
+      }
+      return pix;
+    }
+
+    function fGray(pix, w, h) {
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          var avg = (p.r + p.g + p.b) / 3;
+          avg = avg & 0xFF;
+          p.r = p.g = p.b = avg;
+        }
+      }
+      return pix;
+    }
+
+    function fInvert(pix, w, h) {
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          p.r = 255 - p.r;
+          p.g = 255 - p.g;
+          p.b = 255 - p.b;
+        }
+      }
+      return pix;
+    }
+
+    function fFillLight(pix, w, h) {
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          p.r *= 1.1;
+          p.g *= 1.1;
+          p.b *= 1.1;
+        }
+      }
+      return pix;
+    }
+
+    function fOweLight(pix, w, h) {
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          p.r /= 1.1;
+          p.g /= 1.1;
+          p.b /= 1.1;
+        }
+      }
+      return pix;
+    }
+
+    function fSingleColor(pix, w, h) {
+      var gamma = 8;
+      var step = 8;
+      var gray = 256 / gamma;
+      for (var i = 0; i < h; i++) {
+        for (var j = 0; j < w; j++) {
+          var p = pix[i][j];
+          p.r = Math.floor(p.r / gray) * gray;
+          p.g = Math.floor(p.g / gray) * gray;
+          p.b = Math.floor(p.b / gray) * gray;
+        }
+      }
+      for (var i = 0; i + step < h; i += step) {
+        for (var j = 0; j + step < w; j += step) {
+          var s = 0;
+          for (var x = i; x < i + step; x++) {
+            for (var y = j; y < j + step; y++) {
+              var p = pix[x][y];
+              s += p.r / gray + p.g / gray + p.b / gray;
+            }
+          }
+          s = Math.floor(s / step / step);
+          // console.log(s);
+          s = Math.floor(s / (Math.floor(255 / gray) * 3 + 1) * 256);
+          for (var x = i; x < i + step; x++) {
+            for (var y = j; y < j + step; y++) {
+              var p = pix[x][y];
+              p.r = p.g = p.b = s;
+            }
+          }
+        }
+      }
+      return pix;
+    }
+
+    function change(filter) {
+      var cvs = $('show');
+      var ctx = cvs.getContext('2d');
+      var img = $('src_img');
+      if ($('pic_name').value.length > 0)
+        img.src = $('pic_name').value;
+      else
+        img.src = 'duola2.jpg';
+      var width = img.width;
+      var height = img.height;
+      cvs.width = width;
+      cvs.height = height;
+      ctx.drawImage(img, 0, 0);
+      var imgdata = ctx.getImageData(0, 0, width, height);
+      ctx.putImageData(RGBA2ImageData(filter(ImageData2RGBA(imgdata), width, height), imgdata), 0, 0);
+      $('dst_img').src = cvs.toDataURL();
+      $('clip_width').value = width;
+      $('clip_height').value = height;
+    }
+
+    function go() {
+      eval("change(" + $('ctrl').value + ")");
+    }
+
+    function clip() {
+      var left = parseInt($('clip_left').value);
+      var top = parseInt($('clip_top').value);
+      var width = parseInt($('clip_width').value);
+      var height = parseInt($('clip_height').value);
+      var cvs = $('clip_canvas');
+      var ctx = cvs.getContext('2d');
+      cvs.width = width;
+      cvs.height = height;
+      ctx.drawImage($('dst_img'), left, top, width, height, 0, 0, width, height);
+      var datas = ImageData2RGBA(ctx.getImageData(0, 0, width, height));
+      for (var y = 0; y < height; y++) {
+        for (var x = 0; x < width; x++) {
+          var p = datas[y][x];
+          if (p.r == p.g && p.g == p.b) {
+
+          } else {
+            console.log(x, y, p.r, p.g, p.b);
+          }
+        }
+      }
+    }
+    //-->
+  </script>
+  <style type="text/css">
+    div.log {
+      float: right;
+      width: 200px;
+      height: 300px;
+      border: 1px solid blue;
+      overflow: auto;
+      font-size: 14px;
+    }
+    
+    div.ctrl {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+    }
+    
+    img {
+      border: 1px solid pink;
+    }
+    
+    img#dst_img {
+      background-color: gray;
+    }
+    
+    canvas#show {
+      display: none;
+    }
+  </style>
+</head>
+
+<body onload="go()">
+  <img src="logo1.jpg" id="src_img"></img>
+  <canvas id="show"></canvas>
+  <img id="dst_img"></img>
+  <hr>
+  <canvas id="clip_canvas" style="outline: 1px solid pink"></canvas>
+  <div class="ctrl">
+    <input type="text" id="pic_name" size="12" value="duola2.jpg"><br>
+    <select onclick="go()" size="10" id="ctrl">
+      <option value="fOriginal" selected>原始效果</option>
+      <option value="fOldPhoto">老照片效果</option>
+      <option value="fSoften">柔化效果</option>
+      <option value="fSharpen">锐化效果</option>
+      <option value="fGray">灰度效果</option>
+      <option value="fInvert">反色效果</option>
+      <option value="fFillLight">补光效果</option>
+      <option value="fOweLight">欠光效果</option>
+      <option value="fSingleColor">灰阶化</option>
+    </select>
+    <br>
+    <input type="text" id="clip_left" size="12" value="0">
+    <input type="text" id="clip_top" size="12" value="0">
+    <input type="text" id="clip_width" size="12" value="0">
+    <input type="text" id="clip_height" size="12" value="0">
+    <button onclick="clip()">剪切</button>
+  </div>
+</body>
+
+</html>

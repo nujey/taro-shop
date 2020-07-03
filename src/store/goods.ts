@@ -1,4 +1,4 @@
-import { observable, computed, action, when } from "mobx"
+import { observable, computed, action, when, reaction } from "mobx"
 import { goodsList } from './map'
 class GoodItem {
   id: number | string
@@ -26,7 +26,8 @@ class GoodStore {
   @action.bound
   changeGoodType(type) {
     this.goodType = type
-    when(() => this.goodType === 2, () => this.dispose())
+    // when(() => this.goodType === 2, () => this.dispose())
+    reaction(() => [this.goodType], (arr, reaction) => {console.log(arr); reaction.dispose()})
     this.currentGood = this.goods.filter(e => e.status === this.goodType)
   }
   dispose () {
@@ -44,7 +45,8 @@ class GoodStore {
   }
   /**
    * 删除商品选项
-   * @param index
+   * @param index 索引
+   * @returns 对应项
    */
   @action.bound
   removeGoodItem(index) {
